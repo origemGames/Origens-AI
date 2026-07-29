@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#07090D">
+    <title>Origens AI Multi — v5.2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand-mark">
+                <span class="brand-logo">OA</span>
+                <div class="brand-text">
+                    <span class="brand-title">Origens AI</span>
+                    <span class="brand-subtitle">by Origens Games</span>
+                </div>
+            </div>
+            <div class="sidebar-top">
+                <button class="new-chat-btn" onclick="app.newChat()">
+                    <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 4V16M4 10H16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                    <span>Novo chat</span>
+                </button>
+                <button class="sidebar-close" title="Fechar menu" onclick="app.toggleSidebar()">
+                    <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 5L15 15M15 5L5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="sidebar-section-label">Conversas</div>
+            <div class="history-list" id="historyList"></div>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-section-label">Ferramentas</div>
+
+                <!-- Engine Origens + Comandos, lado a lado (novo na v5.2) -->
+                <div class="btn-pair">
+                    <button class="btn" id="engineOrigensBtn" onclick="app.openEngineOrigens()" title="Engine Origens">
+                        <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="10" cy="10" r="2.6" stroke="currentColor" stroke-width="1.6"/>
+                            <path d="M10 3V5.2M10 14.8V17M17 10H14.8M5.2 10H3M14.9 5.1L13.3 6.7M6.7 13.3L5.1 14.9M14.9 14.9L13.3 13.3M6.7 6.7L5.1 5.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                        </svg>
+                        <span>Engine</span>
+                    </button>
+                    <button class="btn" id="comandosBtn" onclick="app.openComandos()" title="Comandos — execução de ações no dispositivo">
+                        <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="2.8" y="3.8" width="14.4" height="12.4" rx="2.4" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M6 8.4L8.4 10.4L6 12.4M10.6 12.6H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Comandos</span>
+                        <span class="btn-badge">novo</span>
+                    </button>
+                </div>
+
+                <button class="btn btn-highlight" onclick="app.openSandbox()" title="Sandbox colaborativo com terminal real">
+                    <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.2 6.2C3.2 4.9 4.3 3.8 5.6 3.8H14.4C15.7 3.8 16.8 4.9 16.8 6.2V13.8C16.8 15.1 15.7 16.2 14.4 16.2H5.6C4.3 16.2 3.2 15.1 3.2 13.8V6.2Z" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M3.2 7.4H16.8" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M6.4 10.2L8.2 11.9L6.4 13.6M10.2 13.7H13.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Sandbox de IAs</span>
+                </button>
+
+                <button class="btn" onclick="app.openKernelPanel()" title="Painel do Cognitive Kernel">
+                    <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 15V9M8 15V5M12 15V11M16 15V7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    </svg>
+                    <span>Kernel</span>
+                </button>
+
+                <button class="btn" onclick="app.toggleConsole()">
+                    <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 5.5L8.5 10L4 14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M10.5 14.5H16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                    <span>Console</span>
+                </button>
+                <button class="btn" onclick="app.toggleUpdates()">
+                    <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 3V10.5L14 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.6"/>
+                    </svg>
+                    <span>Updates</span>
+                </button>
+                <button class="btn" onclick="app.toggleTerms()">
+                    <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 3.5H12.5L16 7V16.5H6V3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                        <path d="M8 10H14M8 13H14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                    </svg>
+                    <span>Termos</span>
+                </button>
+                <button class="btn" onclick="app.showHelp()">
+                    <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.6"/>
+                        <path d="M7.8 7.8C7.8 6.6 8.8 5.8 10 5.8C11.2 5.8 12.2 6.6 12.2 7.7C12.2 8.9 11 9.2 10.3 9.9C10 10.2 10 10.5 10 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                        <circle cx="10" cy="13.6" r="0.9" fill="currentColor"/>
+                    </svg>
+                    <span>Ajuda</span>
+                </button>
+            </div>
+
+            <div class="brand-links">
+                <a class="brand-link" href="https://discord.gg/OrigensGames" target="_blank" rel="noopener noreferrer">Bugs? Discord.gg/OrigensGames</a>
+                <a class="brand-link" href="mailto:origensgames@gmail.com">Buy Pro and Plus? origensgames@gmail.com</a>
+            </div>
+            <div class="brand-credit">© Origens Games — Todos os direitos reservados</div>
+        </aside>
+
+        <div class="sidebar-backdrop" onclick="app.toggleSidebar()"></div>
+
+        <main class="main-content">
+            <header class="chat-header">
+                <div class="menu-toggle" onclick="app.toggleSidebar()">
+                    <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="header-title">
+                    <span class="status-dot" aria-hidden="true"></span>
+                    <span class="header-name">Origens AI Multi</span>
+                    <span class="version-tag">v5.2</span>
+                </div>
+                <div class="header-spacer"></div>
+                <div class="header-metrics" id="headerMetrics">
+                    <span class="metric-chip" id="metricTask" title="Tipo de tarefa detectado pelo kernel">kernel pronto</span>
+                    <span class="metric-chip" id="metricCouncil" title="IAs acionadas no último pedido">11 IAs disponíveis</span>
+                </div>
+            </header>
+
+            <div class="messages-container" id="messagesContainer">
+                <div class="message ai-final">
+                    Olá. Eu sou a Origens AI Multi, um sistema cooperativo em que múltiplos modelos de IA debatem entre si e chegam a uma resposta final consolidada. Nesta versão 5.2, um kernel cognitivo escolhe quais IAs entram em cada pedido, mede a confiança de cada uma e filtra o que realmente vale antes de responder. Também há um sandbox com terminal real, onde um enxame de IAs escreve, executa e testa código de verdade. Como posso ajudar hoje?
+                </div>
+            </div>
+
+            <div class="input-area">
+                <div class="mode-bar">
+                    <div class="thinking-selector" id="thinkingSelector">
+                        <span class="mode-label">Pensamento</span>
+                        <button class="mode-option" data-level="BASICO" onclick="app.setThinkingLevel('BASICO')">Básico</button>
+                        <button class="mode-option" data-level="MEDIO" onclick="app.setThinkingLevel('MEDIO')">Médio</button>
+                        <button class="mode-option" data-level="ALTO" onclick="app.setThinkingLevel('ALTO')">Alto</button>
+                    </div>
+                    <button class="code-toggle" id="codeToggle" onclick="app.toggleCodeMode()" title="Ativa foco avançado em código e geração de arquivos">
+                        <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 6L2.5 10L7 14M13 6L17.5 10L13 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Code</span>
+                    </button>
+                    <button class="code-toggle" id="questionsToggle" onclick="app.toggleQuestionsMode()" title="A IA pode fazer até 5 perguntas de esclarecimento antes de responder">
+                        <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.6"/>
+                            <path d="M7.8 7.8C7.8 6.6 8.8 5.8 10 5.8C11.2 5.8 12.2 6.6 12.2 7.7C12.2 8.9 11 9.2 10.3 9.9C10 10.2 10 10.5 10 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                            <circle cx="10" cy="13.6" r="0.9" fill="currentColor"/>
+                        </svg>
+                        <span>Perguntas</span>
+                    </button>
+                </div>
+                <div class="token-warning" id="tokenWarning" style="display:none;">
+                    Este nível de Modo Pensamento faz as IAs processarem mais antes de responder e pode consumir bem mais tokens das APIs.
+                </div>
+                <div class="input-wrapper">
+                    <textarea id="userInput" placeholder="Digite sua ideia ou código aqui..."></textarea>
+                    <div class="action-btns">
+                        <input type="file" id="fileInput" style="display: none;" onchange="app.handleFileUpload(event)">
+                        <button class="btn btn-icon" title="Anexar arquivo" onclick="document.getElementById('fileInput').click()">
+                            <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.5 6L7.8 11.7C7 12.5 7 13.8 7.8 14.6C8.6 15.4 9.9 15.4 10.7 14.6L15.8 9.5C17.2 8.1 17.2 5.8 15.8 4.4C14.4 3 12.1 3 10.7 4.4L5.6 9.5C3.6 11.5 3.6 14.7 5.6 16.7C7.6 18.7 10.8 18.7 12.8 16.7L18 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <button class="btn btn-send" id="sendBtn" onclick="app.sendMessage()">
+                            <span>Enviar</span>
+                            <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Updates -->
+    <div id="updatesModal" class="modal-overlay" style="display:none;" onclick="if(event.target===this) app.toggleUpdates()">
+        <div class="modal-panel">
+            <div class="modal-header">
+                <span>Novidades da Origens AI</span>
+                <button class="modal-close" onclick="app.toggleUpdates()">
+                    <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 5L15 15M15 5L5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="updatesBody"></div>
+        </div>
+    </div>
+
+    <!-- Termos -->
+    <div id="termsModal" class="modal-overlay" style="display:none;" onclick="if(event.target===this) app.toggleTerms()">
+        <div class="modal-panel">
+            <div class="modal-header">
+                <span>Termos e Condições</span>
+                <button class="modal-close" onclick="app.toggleTerms()">
+                    <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 5L15 15M15 5L5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="termsBody"></div>
+        </div>
+    </div>
+
+    <!-- Engine Origens -->
+    <div id="engineModal" class="modal-overlay" style="display:none;" onclick="if(event.target===this) app.closeEngineOrigens()">
+        <div class="modal-panel">
+            <div class="modal-header">
+                <span>Engine Origens</span>
+                <button class="modal-close" onclick="app.closeEngineOrigens()">
+                    <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 5L15 15M15 5L5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>A Engine Origens é uma futura funcionalidade própria da Origens Games, ainda em definição nesta versão. Fique de olho na aba "Updates" para novidades.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comandos (novo v5.2) -->
+    <div id="comandosModal" class="modal-overlay" style="display:none;" onclick="if(event.target===this) app.closeComandos()">
+        <div class="modal-panel">
+            <div class="modal-header">
+                <span>Comandos</span>
+                <button class="modal-close" onclick="app.closeComandos()">
+                    <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 5L15 15M15 5L5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="comandosBody"></div>
+        </div>
+    </div>
+
+    <!-- Painel do Kernel (novo v5.2) -->
+    <div id="kernelModal" class="modal-overlay" style="display:none;" onclick="if(event.target===this) app.closeKernelPanel()">
+        <div class="modal-panel">
+            <div class="modal-header">
+                <span>Cognitive Kernel — desempenho das IAs</span>
+                <button class="modal-close" onclick="app.closeKernelPanel()">
+                    <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 5L15 15M15 5L5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="kernelBody"></div>
+        </div>
+    </div>
+
+    <!-- Sandbox colaborativo (novo v5.2) -->
+    <div id="sandboxModal" class="modal-overlay sandbox-overlay" style="display:none;">
+        <div class="sandbox-panel">
+            <div class="sandbox-header">
+                <div class="sandbox-title">
+                    <span class="sandbox-dot"></span>
+                    <strong>Origens Sandbox</strong>
+                    <span class="sandbox-sub">terminal real · enxame de IAs</span>
+                </div>
+                <div class="sandbox-header-actions">
+                    <button class="chip-btn" onclick="app.sandboxQuick('help')">help</button>
+                    <button class="chip-btn" onclick="app.sandboxQuick('ls')">ls</button>
+                    <button class="chip-btn" onclick="app.sandboxQuick('run exemplo.js')">run exemplo.js</button>
+                    <button class="chip-btn danger" id="swarmStopBtn" onclick="app.stopSwarm()" style="display:none;">parar enxame</button>
+                    <button class="modal-close" onclick="app.closeSandbox()">
+                        <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 5L15 15M15 5L5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="sandbox-body">
+                <aside class="sandbox-files">
+                    <div class="sandbox-files-header">
+                        <span>Arquivos</span>
+                        <button class="chip-btn" onclick="app.refreshSandboxFiles()">atualizar</button>
+                    </div>
+                    <div id="sandboxFileList" class="sandbox-file-list"></div>
+                    <div class="sandbox-files-footer" id="sandboxStats"></div>
+                </aside>
+                <section class="sandbox-terminal-wrap">
+                    <div id="sandboxTerminal" class="sandbox-terminal" aria-live="polite"></div>
+                    <div class="sandbox-input-row">
+                        <span class="sandbox-prompt">origens@sandbox</span>
+                        <input id="sandboxInput" class="sandbox-input" type="text" spellcheck="false" autocomplete="off"
+                               placeholder='ex: agente crie uma calculadora de juros compostos com testes'>
+                        <button class="btn btn-send" onclick="app.runSandboxCommand()">
+                            <span>Executar</span>
+                        </button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div id="consolePanel" class="console-panel">
+        <div class="console-panel-title">Console de sistema</div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/api-handlers.js"></script>
+    <script src="js/kernel.js"></script>
+    <script src="js/sandbox.js"></script>
+    <script src="js/orchestrator.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
