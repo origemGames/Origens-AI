@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview — Origens AI Multi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/preview.css">
+</head>
+<body>
+    <div class="preview-app">
+        <header class="preview-topbar">
+            <div class="preview-brand">
+                <span class="preview-brand-logo">OA</span>
+                <div class="preview-brand-text">
+                    <span class="preview-brand-title">Origens AI — Preview</span>
+                    <span class="preview-brand-subtitle" id="sessionInfo">Nenhum projeto carregado</span>
+                </div>
+            </div>
+
+            <div class="preview-tabs" role="tablist">
+                <button class="preview-tab active" id="tabPreviewBtn" onclick="previewApp.switchTab('preview')">Preview</button>
+                <button class="preview-tab" id="tabCodeBtn" onclick="previewApp.switchTab('code')">Código</button>
+            </div>
+
+            <div class="preview-actions">
+                <button class="preview-btn" id="reloadBtn" onclick="previewApp.renderPreview()" title="Recarregar preview">
+                    <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 5.5V9H12.5M4 14.5V11H7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4.5 9C5 6.4 7.3 4.5 10 4.5C12.4 4.5 14.4 6 15.4 8M15.5 11C15 13.6 12.7 15.5 10 15.5C7.6 15.5 5.6 14 4.6 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <div class="export-wrapper">
+                    <button class="preview-btn preview-btn-accent" id="exportBtn" onclick="previewApp.toggleExportMenu()">
+                        Export
+                        <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.5 8L10 12.5L14.5 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <div class="export-menu" id="exportMenu">
+                        <button onclick="previewApp.exportZip()">Baixar tudo (.zip)</button>
+                        <button onclick="previewApp.exportCurrentFile()">Baixar arquivo atual</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="preview-body">
+            <aside class="file-explorer" id="fileExplorer">
+                <div class="file-explorer-title">
+                    <span>File explorer</span>
+                    <button class="explorer-collapse" onclick="previewApp.toggleExplorer()" title="Ocultar explorador">
+                        <svg class="icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 5L3 10L7 15M13 5L17 10L13 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="file-list" id="fileList"></div>
+            </aside>
+
+            <main class="preview-main">
+                <div class="preview-pane" id="previewPane">
+                    <iframe id="previewFrame" title="Preview do projeto" sandbox="allow-scripts allow-modals allow-forms allow-popups allow-same-origin"></iframe>
+                    <div class="preview-empty" id="previewEmpty" style="display:none;">
+                        <p>Nenhum arquivo HTML encontrado para exibir na aba Preview.</p>
+                        <p class="preview-empty-hint">Veja o conteúdo gerado na aba "Código" ao lado.</p>
+                    </div>
+                </div>
+
+                <div class="code-pane" id="codePane" style="display:none;">
+                    <div class="code-pane-header">
+                        <span id="currentFileName">—</span>
+                    </div>
+                    <div class="code-pane-body">
+                        <pre id="codeView"><code id="codeViewContent"></code></pre>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="js/preview.js"></script>
+</body>
+</html>
